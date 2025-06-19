@@ -1,0 +1,512 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | SpamDetect</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .services-hero {
+            background-image: linear-gradient(120deg, rgba(133, 107, 128, 0.85), rgba(42, 3, 36, 0.7)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2ViJTIwc2VydmljZXN8ZW58MHx8MHx8fDA%3D');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            height: 65vh;
+            padding: 6rem 0 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .services-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        }
+        .services-hero p {
+            font-size: 1.35rem;
+            opacity: 0.97;
+            margin-bottom: 0;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        
+        .services-section {
+            margin-top: 0px;
+            position: relative;
+            width: 100%;
+            z-index: 2;
+        }
+        .service-card {
+            background: rgba(255,255,255,0.97);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(44,34,59,0.10);
+            padding: 2.5rem 2rem 2rem 2rem;
+            transition: box-shadow 0.2s, transform 0.2s;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            min-height: 480px;
+        }
+        .service-card:hover {
+            box-shadow: 0 16px 48px rgba(44,34,59,0.15);
+            transform: translateY(-6px) scale(1.03);
+        }
+        .service-icon {
+            background: linear-gradient(135deg, #eaf0fa 0%, #dbeafe 100%);
+            color: #2a5298;
+            border-radius: 50%;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(44,34,59,0.07);
+        }
+        .service-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 0.7rem;
+        }
+        .service-desc {
+            color: #495057;
+            font-size: 1.08rem;
+            margin-bottom: 1.2rem;
+        }
+        .service-features {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1.2rem;
+        }
+        .service-features li {
+            margin-bottom: 0.5rem;
+            color: #2a5298;
+            font-size: 1.05rem;
+        }
+        .service-features i {
+            color: #1e3c72;
+            margin-right: 0.5rem;
+        }
+        .service-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 1rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(44,34,59,0.08);
+        }
+        .cta-section {
+            background: linear-gradient(90deg, #2a5298 0%, #1e3c72 100%);
+            color: #fff;
+            border-radius: 1.5rem;
+            padding: 2.5rem 1.5rem;
+            height: 300px;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(44,34,59,0.10);
+        }
+        .cta-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .cta-section .btn {
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1.15rem;
+            padding: 0.75rem 2.5rem;
+            background: #fff;
+            color: #2a5298;
+            border: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .cta-section .btn:hover {
+            background: #eaf0fa;
+            color: #1e3c72;
+        }
+        
+        @media (max-width: 991px) {
+            .service-card {
+                margin-bottom: 2rem;
+            }
+            .services-section {
+                margin-top: -30px;
+            }
+            
+        }
+        @media (max-width: 767px) {
+            .services-hero h1 {
+                font-size: 2rem;
+            }
+            .service-card {
+                padding: 2rem 1rem 1.5rem 1rem;
+            }
+        }
+        /* Footer */
+        /* footer {
+            background: #343a40;
+            color: #ccc;
+            padding-top: 40px;
+        }
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        footer .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #ccc;
+        }
+        footer .social-icons a:hover {
+            color: #fff;
+        }
+        footer hr {
+            border-top: 1px solid #555;
+        } */
+
+        .why-choose-us-img-section {
+            position: relative;
+            min-height: 480px;
+            color: #fff;
+            overflow: hidden;
+        }
+        .why-choose-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(20, 28, 40, 0.78);
+            z-index: 1;
+        }
+        .why-choose-us-img-section .container {
+            position: relative;
+            z-index: 2;
+        }
+        .why-choose-title-img {
+            font-size: 2.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #fff;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+        }
+        .why-caption-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: 0;
+        }
+        .why-caption-box {
+            border-radius: 0.7rem;
+            padding: 1.1rem 2.2rem 1.1rem 1.3rem;
+            min-width: 340px;
+            max-width: 520px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            font-size: 1.08rem;
+            align-items: center;
+            background: #fff;
+            color: #222;
+            position: relative;
+            margin-bottom: 0;
+        }
+        .why-caption-blue {
+            background: linear-gradient(90deg, #3b82f6 80%, #2563eb 100%);
+            color: #fff;
+            }
+        .why-caption-green {
+            background: linear-gradient(90deg, #22c55e 80%, #16a34a 100%);
+            color: #fff;
+        }
+        .why-caption-yellow {
+            background: linear-gradient(90deg, #facc15 80%, #eab308 100%);
+            color: #fff;
+        }
+        .why-caption-brown {
+            background: linear-gradient(90deg, #b08968 80%, #7f5539 100%);
+            color: #fff;
+        }
+        .why-caption-pink {
+            background: linear-gradient(90deg, #f472b6 80%, #db2777 100%);
+            color: #fff;
+        }
+        .why-caption-icon {
+            font-size: 2rem;
+            width: 2.7rem;
+            height: 2.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.18);
+            border-radius: 0.5rem;
+        }
+        .why-caption-title {
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .why-caption-desc {
+            font-size: 1rem;
+            opacity: 0.93;
+        }
+        .ms-md-auto {
+            margin-left: auto !important;
+        }
+        @media (max-width: 991px) {
+        .why-caption-stack {
+            margin-left: 0;
+            margin-right: 0;
+            max-width: 100%;
+        }
+        .ms-md-auto {
+            margin-left: 0 !important;
+        }
+        }
+        @media (max-width: 767px) {
+        .why-choose-title-img {
+            font-size: 2rem;
+        }
+        .why-caption-box {
+            min-width: 0;
+            max-width: 100%;
+            padding: 1rem 1.1rem;
+            font-size: 1rem;
+        }
+    }
+
+        
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">SpamDetect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+
+    <!-- Hero Section -->
+    <section class="services-hero">
+        <h1>Our Services</h1>
+        <p class="mt-3 mb-0">Empowering you with advanced, AI-driven spam and threat detection solutions for your business and personal needs.</p>
+    </section>
+
+    <!-- Why Choose Us Section (Exact styling as shown in the image) -->
+    <section class="why-choose-us-img-section position-relative" style="background: url('https://www.alldsc.com/wp-content/uploads/2024/09/why-choose-us-bg-2.jpg') center center/cover no-repeat; min-height: 20px;">
+    <div class="why-choose-overlay"></div>
+    <div class="container position-relative py-5">
+        <h2 class="why-choose-title-img mb-5">Why Choose Us ?</h2>
+        <div class="why-caption-stack">
+        <div class="why-caption-box why-caption-blue d-flex align-items-center">
+            <div class="why-caption-icon me-3"><i class="fas fa-graduation-cap"></i></div>
+            <div>
+            <div class="why-caption-title">Expert Team</div>
+            <div class="why-caption-desc">Our professionals bring years of experience in AI and cybersecurity.</div>
+            </div>
+        </div>
+        <div class="why-caption-box why-caption-green d-flex align-items-center ms-md-auto">
+            <div class="why-caption-icon me-3"><i class="fas fa-shopping-cart"></i></div>
+            <div>
+            <div class="why-caption-title">Seamless Integration</div>
+            <div class="why-caption-desc">Easily integrate our solutions into your workflow, apps, or business tools.</div>
+            </div>
+        </div>
+        <div class="why-caption-box why-caption-yellow d-flex align-items-center">
+            <div class="why-caption-icon me-3"><i class="fas fa-bolt"></i></div>
+            <div>
+            <div class="why-caption-title">Lightning Fast</div>
+            <div class="why-caption-desc">Real-time detection and instant alerts for maximum protection.</div>
+            </div>
+        </div>
+        <div class="why-caption-box why-caption-brown d-flex align-items-center ms-md-auto">
+            <div class="why-caption-icon me-3"><i class="fas fa-cogs"></i></div>
+            <div>
+            <div class="why-caption-title">Custom Solutions</div>
+            <div class="why-caption-desc">Flexible features and APIs tailored to your unique needs.</div>
+            </div>
+        </div>
+        <div class="why-caption-box why-caption-pink d-flex align-items-center">
+            <div class="why-caption-icon me-3"><i class="fas fa-headset"></i></div>
+            <div>
+            <div class="why-caption-title">24/7 Support</div>
+            <div class="why-caption-desc">Get help anytime from our dedicated security professionals.</div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Services Cards Section -->
+    <section class="services-section">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Service 1 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-card text-center h-100">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=400&q=80" class="service-img" alt="Spam Detection">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="service-title">Spam Detection</div>
+                        <div class="service-desc">
+                            Instantly scan emails, messages, & files for spam and phishing threats using AI-powered engines.
+                        </div>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i>Instant analysis</li>
+                            <li><i class="fas fa-check-circle"></i>Phishing & scam alerts</li>
+                            <li><i class="fas fa-check-circle"></i>Multi-language support</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+                <!-- Service 2 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-card text-center h-100">
+                        <img src="data:image/jpeg;base64,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" class="service-img" alt="Enterprise Protection">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="service-title">Enterprise Protection</div>
+                        <div class="service-desc">
+                             Spam and threat protection for organizations, with advanced reporting and admin controls.
+                        </div>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i>Admin dashboard</li>
+                            <li><i class="fas fa-check-circle"></i>Custom rules & policies</li>
+                            <li><i class="fas fa-check-circle"></i>Team management</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+                <!-- Service 3 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-card text-center h-100">
+                        <img src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80" class="service-img" alt="API Integrations">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="service-title">API & Integrations</div>
+                        <div class="service-desc">
+                            Seamlessly integrate our detection engine into your apps, websites, or workflows with robust APIs.
+                        </div>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i>RESTful API access</li>
+                            <li><i class="fas fa-check-circle"></i>SDKs for popular languages</li>
+                            <li><i class="fas fa-check-circle"></i>24/7 developer support</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+                <!-- Service 4 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-card text-center h-100">
+                        <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80" class="service-img" alt="Consulting & Training">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="service-title">Consulting & Training</div>
+                        <div class="service-desc">
+                            Expert guidance, workshops, and training to help your team recognize and prevent threats.
+                        </div>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i>Workshops & webinars</li>
+                            <li><i class="fas fa-check-circle"></i>Custom consulting</li>
+                            <li><i class="fas fa-check-circle"></i>Best practices guides</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <!-- CTA Section -->
+            <div class="cta-section mt-5">
+                <h2>Ready to Secure Your Communications?</h2>
+                <p class="mb-4">Contact us today for a free consultation or to request a custom solution for your business.</p>
+                <a href="contact.html" class="btn">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer Section -->
+    <!-- <footer>
+        <div class="container">
+            <div class="row text-center text-md-start"> -->
+                <!-- About -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>About SpamDetect</h5>
+                    <p>Your trusted partner for advanced spam detection solutions. We help you keep your inbox clean and secure.</p>
+                </div> -->
+                <!-- Quick Links -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div> -->
+                <!-- Contact Us -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: support@spamdetect.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>Address: 123 SpamDetect Lane,<br> Tech City, TC 12345</p>
+                </div> -->
+                <!-- Social Media -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i> Facebook</a><br>
+                        <a href="#"><i class="fab fa-twitter"></i> Twitter</a><br>
+                        <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a><br>
+                        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center pb-3">
+                <p>&copy; 2025 SpamDetect. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer> -->
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

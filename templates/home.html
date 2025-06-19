@@ -1,0 +1,613 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+        }
+
+       
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(168, 14, 14, 0.5), rgba(236, 6, 6, 0.5)), url("{{ url_for('static', filename='spam-hero.jpg') }}") no-repeat center center;
+            background-size: cover;
+            color: white;
+            height: 500px;
+            position: relative;
+        }
+        .hero-overlay {
+            background-color: rgba(94, 90, 154, 0.6);
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Statistics Section - Enhanced */
+        .stats {
+            padding: 80px 0;
+            background: rgb(31, 23, 82); /* Light gray background */
+            color:white; /* Dark text for contrast */
+            position: relative;
+        }
+
+        .stats::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/dark-stripes.png');
+            opacity: 0.1;
+            z-index: 1;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgb(186, 211, 214);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+}
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h2 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #402b38; /* Dark blue-gray */
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            color: #402b38; /* Medium gray */
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #3498db; /* Nice blue color */
+        }
+        
+
+        /* Features Section */
+        .features {
+            padding: 60px 0;
+            background: #cadae9;
+        }
+        .features .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body{
+            background-color: #dcf1ec;
+        }
+        
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 60px 0;
+        }
+        .testimonial-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            padding: 30px;
+            border-radius: 5px;
+            margin: 15px;
+        }
+
+        .scam-alerts-section {
+            background: #dee3ec94;
+        } 
+        .scam-alerts-section .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #22223b;
+            letter-spacing: 1px;
+        }
+        .alert-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(44, 34, 59, 0.07);
+            padding: 28px 24px 20px 24px;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+        }
+        .alert-card h4 {
+            color: #22223b;
+            font-size: 1.25rem;
+        }
+        .trend-thumb {
+            width: 60px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+        .alert-card span {
+            font-size: 1rem;
+            color: #343a40;
+        }
+
+        .trend-img {
+            width: 160px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(44,34,59,0.04);
+            flex-shrink: 0;
+        }
+        .scam-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .scam-text {
+            font-size: 1.05rem;
+            color: #343a40;
+            font-weight: 500;
+            text-align: left;
+            margin: 0;
+        }
+
+        .btn-danger {
+            background-color: #bb656a;
+            border: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+
+        .why-choose-us-pro {
+            background: linear-gradient(120deg, #232946 0%, #16161a 100%);
+            min-height: 500px;
+        }
+        .why-img-wrapper-pro {
+            background: #fff;
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 32px rgba(44,34,59,0.18);
+            overflow: hidden;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .why-img-pro {
+            border-radius: 1rem;
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            box-shadow: 0 4px 24px rgba(44,34,59,0.10);
+        }
+        .why-content-pro {
+            background: linear-gradient(120deg, #2a2d43 0%, #232946 100%);
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 32px rgba(44,34,59,0.12);
+            color: #fff;
+            position: relative;
+        }
+        .accent-bar {
+            width: 60px;
+            height: 5px;
+            background: linear-gradient(90deg, #4f8cff 0%, #a259ff 100%);
+            border-radius: 3px;
+            margin-bottom: 1rem;
+        }
+        .why-list-pro {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .why-list-pro li {
+            font-size: 1.08rem;
+            color: #dbeafe;
+            margin-bottom: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+        .why-list-pro i {
+            color: #4f8cff;
+            font-size: 1.3rem;
+            background: #232946;
+            border-radius: 50%;
+            padding: 6px;
+            margin-right: 6px;
+        }
+        @media (max-width: 991px) {
+            .why-img-pro {
+                height: 180px;
+            }
+            .why-content-pro {
+                padding: 1.5rem;
+            }
+        }
+
+        .btn-danger:hover {
+            background-color: #780000;
+        }
+        @media (max-width: 991px) {
+            .alert-card {
+                min-height: 0;
+                padding: 20px 12px 16px 12px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: #343a40;
+            color: #ccc;
+            padding-top: 40px;
+        }
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        footer .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #ccc;
+        }
+        footer .social-icons a:hover {
+            color: #fff;
+        }
+        footer hr {
+            border-top: 1px solid #555;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            position: relative;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: #8B0000;
+            margin: 15px auto 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">SpamDetect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content text-center">
+            <h1 class="display-4">Welcome to SpamDetect</h1>
+            <p class="lead">Advanced spam detection at your fingertips</p>
+            <a href="{{ url_for('detector') }}" class="btn btn-info btn-lg">Try Our Demo</a>
+        </div>
+    </section>
+
+    <!-- Statistics Section - Enhanced -->
+    <section class="stats">
+        <div class="container">
+            <h2 class="text-center mb-5 text-white">Our Impact in Numbers</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <h2>99%</h2>
+                        <p>Detection Accuracy</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                        <h2>500K+</h2>
+                        <p>Emails Processed Daily</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h2>1K+</h2>
+                        <p>Satisfied Clients</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-lightning"></i>
+                        </div>
+                        <h2>50ms</h2>
+                        <p>Average Response Time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="text-center mb-5 section-title">Our Features</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="{{ url_for('static',filename='analysis.jpg') }}" class="card-img-top" alt="Analysis">
+                        <div class="card-body">
+                            <h5 class="card-title">Real-time Analysis</h5>
+                            <p class="card-text">Monitor incoming emails in real time and immediately detect spam using advanced.<br>
+                            Benefit from instant threat identification to secure your communications.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="{{ url_for('static',filename='ml-algorithms.jpg') }}" class="card-img-top" alt="Machine Learning">
+                        <div class="card-body">
+                            <h5 class="card-title">Machine Learning</h5>
+                            <p class="card-text">Leverage cutting-edge machine learning techniques that adapt over time.<br>
+                            Our intelligent system continuously improves for optimal spam detection.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="{{ url_for('static',filename='user-friendly.jpg') }}" class="card-img-top" alt="User Friendly">
+                        <div class="card-body">
+                            <h5 class="card-title">User Friendly</h5>
+                            <p class="card-text">Enjoy an intuitive interface designed for simple navigation and efficiency.<br>
+                            Manage your spam detection with confidence using a clean, modern layout.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="{{ url_for('static',filename='security.jpg') }}" class="card-img-top" alt="Security">
+                        <div class="card-body">
+                            <h5 class="card-title">Robust Security</h5>
+                            <p class="card-text">Protect your data with state-of-the-art security protocols and multi-layered.<br>
+                            Experience enterprise-grade protection for complete peace of mind.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us-pro py-5">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="why-img-wrapper-pro">
+                        <img src="https://madisoncountytitlecompany.com/images/article-images/why-choose-us-feature.jpg" alt="Why Choose Us?" class="img-fluid why-img-pro">
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="why-content-pro p-5">
+                        <div class="accent-bar mb-3"></div>
+                        <h2 class="mb-4" style="color:#fff; font-weight:700; letter-spacing:1px;">Why Choose Us?</h2>
+                        <p class="mb-4" style="color:#dbeafe; font-size:1.15rem;">
+                            At <span style="color:#4f8cff;font-weight:600;">SpamDetect</span>, we blend advanced AI with real-world expertise to deliver the most reliable spam protection. Our platform is trusted by organizations and individuals for its security, speed, and ease of use.
+                        </p>
+                        <ul class="why-list-pro">
+                            <li><i class="bi bi-shield-lock-fill"></i> Enterprise-grade Security & Privacy</li>
+                            <li><i class="bi bi-lightning-charge-fill"></i> Real-time, Lightning-fast Detection</li>
+                            <li><i class="bi bi-bar-chart-fill"></i> Actionable Analytics & Reporting</li>
+                            <li><i class="bi bi-gear-fill"></i> Effortless Integration & Customization</li>
+                            <li><i class="bi bi-people-fill"></i> Trusted by 1,000+ Organizations</li>
+                            <li><i class="bi bi-award-fill"></i> Award-winning Customer Support</li>
+                            <li><i class="bi bi-arrow-repeat"></i> Continuous Updates with Latest Threat Intelligence</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Add this section after the testimonials section in your home.html -->
+    <section class="scam-alerts-section py-5">
+        <div class="container">
+            <h2 class="section-title mb-5">Scam Alerts & Trends</h2>
+            <div class="row g-4">
+                <!-- Left: Featured Alert -->
+                <div class="col-lg-4">
+                    <div class="alert-card h-100 d-flex flex-column">
+                        <h4 class="fw-bold mb-3">Scammed Once, Fooled Twice?</h4>
+                        <img src="{{ url_for('static', filename='crypto2.jpg') }}" class="img-fluid rounded mb-3" alt="Crypto Recovery Scams">
+                        <p class="flex-grow-1">Learn how crypto recovery scams target victims twice. Stay informed and protect your assets from sophisticated fraudsters.</p>
+                        <a href="#" class="btn btn-danger w-100 mt-3">READ MORE</a>
+                    </div>
+                </div>
+                
+
+                <!-- Middle: Scam Trends -->
+                <div class="col-lg-4">
+                    <div class="alert-card h-100 d-flex flex-column">
+                        <h4 class="fw-bold mb-3">Scam Trends</h4>
+                        <div class="mb-4 scam-item">
+                            <img src="https://internationalbanker.com/wp-content/uploads/2021/05/Banking-Fraud.png" class="trend-img mb-2" alt="Scam Threats">
+                            <div class="scam-text">The Top 3 Scam Threats That Break More Than Your Bank</div>
+                        </div>
+                        <div class="mb-4 scam-item">
+                            <img src="https://fabrikbrands.com/wp-content/uploads/Adidas-Logo-7-1200x750.jpg" class="trend-img mb-2" alt="Adidas Data Breach">
+                            <div class="scam-text">Adidas Data Breach Puts Customer Info at Risk</div>
+                        </div>
+                        <div class="mb-4 scam-item">
+                            <img src="{{ url_for('static', filename='crypto.jpg') }}" class="trend-img mb-2" alt="Crypto Recovery">
+                            <div class="scam-text">Crypto Recovery Scams: How to Avoid Getting Scammed Twice</div>
+                        </div>
+                        <div class="flex-grow-1"></div>
+                        <a href="#" class="btn btn-danger w-100 mt-3">READ MORE</a>
+                    </div>
+                </div>
+                
+                <!-- Right: Scam Alerts -->
+                <div class="col-lg-4">
+                    <div class="alert-card h-100 d-flex flex-column">
+                        <h4 class="fw-bold mb-3">Scam Alerts</h4>
+                        <div class="mb-4 scam-item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMfO4LayAx6wqjXur5QVSONRJ-0uvJ5VBTIw&s" class="trend-img mb-2" alt="Reebok Scam">
+                            <div class="scam-text">Is Reebok.eu Legit or a Scam?</div>
+                        </div>
+             
+             
+             
+                        <div class="mb-4 scam-item">
+                            <img src="https://iemlabs.com/blogs/wp-content/uploads/sites/4/2024/01/vegamovies.webp" class="trend-img mb-2" alt="Vegamovies Scam">
+                            <div class="scam-text">The Vegamovies-nl.de Dilemma: Legit Movie Site or Online Scam?</div>
+                        </div>
+                        <div class="mb-4 scam-item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTblwLfqj5GtplWMEf2iiKGuzWBJfecq4tTug&s" class="trend-img mb-2" alt="Oxfordall Scam">
+                            <div class="scam-text">Is Oxfordall.shop a Scam or Just a Shady Deal?</div>
+                        </div>
+                        <div class="flex-grow-1"></div>
+                        <a href="#" class="btn btn-danger w-100 mt-3">READ MORE</a>
+                    </div>
+                </div>
+
+    <!-- User Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="text-center mb-5 section-title">What Our Users Say</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://bebopbusiness.no/wp-content/uploads/2016/12/spearker_1-300x300.jpg" alt="John Doe" class="rounded-circle mb-3" style="width:90px; height:90px; object-fit:cover;">
+                        <p>"SpamDetect has completely transformed the way we manage our emails. Highly recommended!"</p>
+                        <h6>- John Doe</h6>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://www.canoestudios.com/wp-content/uploads/2021/09/testimonial.jpg" alt="Jane Smith" class="rounded-circle mb-3" style="width:90px; height:90px; object-fit:cover;">
+                        <p>"The accuracy and speed of SpamDetect are unmatched in the industry."</p>
+                        <h6>- Jane Smith</h6>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://kamleshyadav.com/wp/affiliate/wp-content/uploads/2018/07/testimonial1.jpg" alt="Emily Johnson" class="rounded-circle mb-3" style="width:90px; height:90px; object-fit:cover;">
+                        <p>"A game changer for security and productivity. Our inbox has never been cleaner."</p>
+                        <h6>- Emily Johnson</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer Section -->
+    <!-- <footer>
+        <div class="container">
+            <div class="row text-center text-md-start"> -->
+                <!-- About -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>About SpamDetect</h5>
+                    <p>Your trusted partner for advanced spam detection solutions. We help you keep your inbox clean and secure.</p>
+                </div> -->
+                <!-- Quick Links -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div> -->
+                <!-- Contact Us -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: support@spamdetect.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>Address: 123 SpamDetect Lane,<br> Tech City, TC 12345</p>
+                </div> -->
+                <!-- Social Media -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i> Facebook</a><br>
+                        <a href="#"><i class="bi bi-twitter"></i> Twitter</a><br>
+                        <a href="#"><i class="bi bi-linkedin"></i> LinkedIn</a><br>
+                        <a href="#"><i class="bi bi-instagram"></i> Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center pb-3">
+                <p>&copy; 2025 SpamDetect. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer> -->
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</body>
+</html>
+{% endblock %}

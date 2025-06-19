@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %} SpamDetection {% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+     <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">SpamDetect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{url_for('about')}}">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{url_for('services')}}">Services</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{url_for('contact')}}">Contact Us</a>
+              </li>
+
+            </ul>
+            </div>
+        </div>
+    </nav>
+  <style>
+    footer {
+            background: #343a40;
+            color: #ccc;
+            padding-top: 40px;
+        }
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        footer .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #ccc;
+        }
+        footer .social-icons a:hover {
+            color: #fff;
+        }
+        footer hr {
+            border-top: 1px solid #555;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            position: relative;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: #8B0000;
+            margin: 15px auto 0;
+        }
+        /* Navbar */
+        .navbar-dark.bg-dark {
+            background-color: #000 !important;
+        }
+  </style>
+    {% block content %}
+    {% endblock %}
+</div>
+<!-- Enhanced Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <!-- About -->
+                <div class="col-md-3 mb-4">
+                    <h5>About SpamDetect</h5>
+                    <p>Your trusted partner for advanced spam detection solutions. We help you keep your inbox clean and secure.</p>
+                </div>
+                <!-- Quick Links -->
+                <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- Contact Us -->
+                <div class="col-md-3 mb-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: support@spamdetect.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>Address: 123 SpamDetect Lane,<br> Tech City, TC 12345</p>
+                </div>
+                <!-- Social Media -->
+                <div class="col-md-3 mb-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i> Facebook</a><br>
+                        <a href="#"><i class="bi bi-twitter"></i> Twitter</a><br>
+                        <a href="#"><i class="bi bi-linkedin"></i> LinkedIn</a><br>
+                        <a href="#"><i class="bi bi-instagram"></i> Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center pb-3">
+                <p>&copy; 2025 SpamDetect. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,414 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us | SpamDetect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(120deg, #f3f6fa 0%, #e9edf3 100%);
+            font-family:'Times New Roman', Times, serif;
+        }
+
+        .about-hero {
+            background-image: linear-gradient(0deg, rgba(98, 114, 146, 0.7), rgba(11, 33, 70, 0.5)), url('https://plus.unsplash.com/premium_photo-1661878265739-da90bc1af051?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2VjdXJpdHl8ZW58MHx8MHx8fDA%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            height: 70vh;
+            padding: 5rem 0 3rem 0;
+            text-align: left;
+            display: flex;
+            align-items:flex-start;      /* Vertical centering */
+            justify-content:center;  /* Horizontal centering */
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .about-hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 0;
+        }
+
+        */
+        .about-section {
+            margin-top: 0px;
+            position: relative;
+            z-index: 2;
+            
+        }
+        .about-card {
+            background: rgba(255,255,255,0.97);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(44,34,59,0.10);
+            padding: 2.5rem 2rem 2rem 2rem;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-highlight {
+            color: #ffd700 !important; /* Gold color for high contrast */
+            background: rgba(30,60,114,0.85);
+            padding: 0.15em 0.5em;
+            border-radius: 0.4em;
+            font-weight: 700;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        .about-values {
+            background: linear-gradient(120deg, #eaf0fa 0%, #f8fafc 100%);
+            border-radius: 1.25rem;
+            padding: 2rem 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 16px rgba(44,34,59,0.07);
+        }
+        .about-values h3 {
+            color: #1e3c72;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+        }
+        .about-values ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .about-values li {
+            margin-bottom: 0.7rem;
+            font-size: 1.08rem;
+            color: #2a5298;
+            display: flex;
+            align-items: center;
+        }
+        .about-values i {
+            color: #1e3c72;
+            margin-right: 0.7rem;
+            font-size: 1.1rem;
+        }
+        .about-team {
+            margin-top: 3rem;
+        }
+        .team-card {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 16px rgba(44,34,59,0.08);
+            padding: 2rem 1rem 1.5rem 1rem;
+            text-align: center;
+            transition: box-shadow 0.2s, transform 0.2s;
+            border: none;
+        }
+        .team-card:hover {
+            box-shadow: 0 12px 32px rgba(44,34,59,0.13);
+            transform: translateY(-6px) scale(1.03);
+        }
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid #2a5298;
+            box-shadow: 0 2px 8px rgba(44,34,59,0.10);
+        }
+        .team-name {
+            font-weight: 700;
+            color: #2a5298;
+            font-size: 1.15rem;
+        }
+        .team-role {
+            color: #1e3c72;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .team-social a {
+            color: #2a5298;
+            margin: 0 0.4rem;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+        .team-social a:hover {
+            color: #1e3c72;
+        }
+        
+        .about-values-hero {
+            position: relative;
+            min-height: 340px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        .about-values-overlay {
+            background: rgba(30,44,72,0.68);
+            z-index: 1;
+            border-radius: 0;
+        }
+        .about-values-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        }
+        .about-values-text {
+            font-size: 1.15rem;
+            font-weight: 400;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.10);
+        }
+        .about-values-list li {
+            font-size: 1.13rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.10);
+        }
+        @media (max-width: 767px) {
+            .about-values-title {
+                font-size: 1.5rem;
+            }
+            .about-values-hero {
+                min-height: 220px;
+                padding: 2rem 0;
+            }
+        }
+        .join {
+            padding: 30px;
+        }
+       
+
+        /* Footer */
+        /* footer {
+            background: #343a40;
+            color: #ccc;
+            padding-top: 40px;
+        }
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        footer .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #ccc;
+        }
+        footer .social-icons a:hover {
+            color: #fff;
+        }
+        footer hr {
+            border-top: 1px solid #555;
+        } */
+        
+        /* Section Titles */
+        /* .section-title {
+            position: relative;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+        } */
+        
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">SpamDetect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>
+                About SpamDetect
+            </h1>
+            <p class="mt-3 mb-0">Protecting your digital world with cutting-edge AI and a passion for security.</p>
+        </div>
+    </section>
+
+    <!-- Main About Section with Image and Caption Side by Side -->
+    <section class="about-main-section d-flex flex-wrap align-items-center justify-content-center" style="background: #f3f6fa; margin-top: 3rem; margin-bottom: 3rem; min-height: 420px;">
+        <img src="data:image/jpeg;base64,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"
+            alt="SpamDetect Team"
+            style="max-width: 480px; width: 100%; border-radius: 1.5rem; box-shadow: 0 8px 32px rgba(44,34,59,0.10); margin: 1.5rem;">
+        <div style="flex: 1 1 340px; min-width: 320px; max-width: 700px; margin: 1.5rem;">
+            <h2 style="font-size: 2.2rem; font-weight: 700; letter-spacing: 1px; color: #2a5298; margin-bottom: 1.2rem;">
+                About SpamDetect
+            </h2>
+            <h3 style="font-size: 1.3rem; font-weight: 600; color: #1e3c72; margin-bottom: 0.8rem;">Our Story</h3>
+            <p style="font-size: 1.08rem; color: #222;">
+                Founded in 2024, SpamDetect was born from a vision to make the digital world safer for everyone. Our founders, a group of cybersecurity experts and data scientists, recognized the growing threat of spam, scams, and digital fraud in everyday communication. Frustrated by the lack of accessible and effective solutions, they set out to create a platform that would empower both individuals and organizations to take control of their digital safety.
+            </p>
+            <p style="font-size: 1.08rem; color: #222;">
+                Over the years, SpamDetect has evolved from a simple spam filter into a comprehensive security suite, trusted by thousands of users worldwide. Our journey has been marked by relentless innovation, a commitment to transparency, and a passion for helping people stay protected online.
+            </p>
+            <h3 style="font-size: 1.3rem; font-weight: 600; color: #1e3c72; margin-bottom: 0.8rem;">Our Mission</h3>
+            <p style="font-size: 1.08rem; color: #222;">
+                Our mission is to empower everyone to detect, prevent, and report spam and digital threats with confidence. We believe that security should be simple, effective, and accessible to all—regardless of technical background. By harnessing the power of artificial intelligence, real-time analysis, and community-driven insights, we deliver solutions that adapt to new threats as they emerge.
+            </p>
+            <p style="font-size: 1.08rem; color: #222;">
+                At SpamDetect, we are committed to continuous improvement and ethical innovation. We prioritize user privacy, data transparency, and responsible AI practices in everything we do.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- Values Section (Hero Style with Overlay) -->
+    <section class="about-values-hero position-relative" style="background-image: url('https://media.istockphoto.com/id/952625346/photo/businessmen-shaking-hands-after-meeting-in-a-cafe.jpg?s=612x612&w=0&k=20&c=dpfUuBGPdTi4b4gbBg9kkpg8KauUSzGLpVByJsa5_KY='); background-size: cover; background-position: center; min-height:600px;">
+        <div class="about-values-overlay position-absolute top-0 start-0 w-100 h-100" style="background: rgba(30,44,72,0.68)"></div>
+        <div class="container position-relative" style="z-index:2;">
+            <div class="row">
+                <div class="col-lg-8 col-md-10">
+                    <h2 class="about-values-title text-white fw-bold mb-4" style="font-size:1.8rem;">Our Core Values</h2>
+                    <p class="about-values-text text-white mb-0" style="font-size:1.13rem;">
+                        At SpamDetect, our core values are the foundation of everything we do. We are driven by a passion for innovation, always seeking new ways to protect our users through advanced AI and technology. We believe in empowering individuals and organizations by making security accessible, transparent, and easy to use. Trust and integrity guide our actions, and we are committed to building a global community where everyone can feel safe online. Our dedication to continuous improvement ensures that we adapt to new threats and challenges, so our users can focus on what matters most with confidence and peace of mind.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+                    
+    <!-- Team Section -->
+    <div class="about-team">
+                        <h3 class="fw-bold mb-4 text-center" style="color:#2a5298;">Meet Our Team</h3>
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="team-card">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="team-avatar" alt="Team Member">
+                                    <div class="team-name">Arjun Mehra</div>
+                                    <div class="team-role">Founder & CEO</div>
+                                    <div class="team-social">
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                        <a href="#"><i class="fab fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="team-card">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="team-avatar" alt="Team Member">
+                                    <div class="team-name">Rohini Sharma</div>
+                                    <div class="team-role">Lead Data Scientist</div>
+                                    <div class="team-social">
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                        <a href="#"><i class="fab fa-github"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="team-card">
+                                    <img src="https://randomuser.me/api/portraits/men/85.jpg" class="team-avatar" alt="Team Member">
+                                    <div class="team-name">Samir Patel</div>
+                                    <div class="team-role">Security Engineer</div>
+                                    <div class="team-social">
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                        <a href="#"><i class="fab fa-github"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CTA Section -->
+                     <div class="join">
+                         <div class="about-cta mt-5">
+                        <h2>Join Us in Building a Safer Digital World</h2>
+                        <p class="mb-4">Have questions, feedback, or want to collaborate? We’d love to hear from you.</p>
+                        <a href="contact.html" class="btn">Contact Us</a>
+                    </div>
+
+                     </div>
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer Section -->
+    <!-- <footer>
+        <div class="container">
+            <div class="row text-center text-md-start"> -->
+                <!-- About -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>About SpamDetect</h5>
+                    <p>Your trusted partner for advanced spam detection solutions. We help you keep your inbox clean and secure.</p>
+                </div> -->
+                <!-- Quick Links -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div> -->
+                <!-- Contact Us -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: support@spamdetect.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>Address: 123 SpamDetect Lane,<br> Tech City, TC 12345</p>
+                </div> -->
+                <!-- Social Media -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i> Facebook</a><br>
+                        <a href="#"><i class="bi bi-twitter"></i> Twitter</a><br>
+                        <a href="#"><i class="bi bi-linkedin"></i> LinkedIn</a><br>
+                        <a href="#"><i class="bi bi-instagram"></i> Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center pb-3">
+                <p>&copy; 2025 SpamDetect. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer> -->
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

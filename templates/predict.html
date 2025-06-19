@@ -1,0 +1,476 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>Spam Detection Result | SpamDetect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background: linear-gradient(120deg, #f3f6fa 0%, #e9edf3 100%);
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        /* Navbar */
+        /* .navbar-dark.bg-dark {
+            background-color: #000 !important;
+        } */
+        .result-hero {
+            background: linear-gradient(120deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            padding: 5rem 0 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .result-hero h1 {
+            font-size: 2.7rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        }
+        .result-hero p {
+            font-size: 1.25rem;
+            opacity: 0.97;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        .result-card {
+            background: #fff;
+            border-radius: 2rem;
+            box-shadow: 0 12px 48px rgba(44,34,59,0.13);
+            padding: 2.5rem 2rem 2rem 2rem;
+            margin-top: 0px;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+        .result-label {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2a5298;
+        }
+        .result-spam {
+            color: #dc3545;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .result-safe {
+            color: #198754;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .result-message {
+            background: linear-gradient(90deg, #e0e7ff 0%, #f8fafc 100%);
+            border-radius: 1rem;
+            padding: 1.2rem 1.5rem;
+            font-size: 1.15rem;
+            color: #2a3142;
+            margin-bottom: 2rem;
+            word-break: break-word;
+            border-left: 6px solid #2a5298;
+            box-shadow: 0 2px 12px rgba(44,34,59,0.07);
+        }
+        .prob-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.2rem;
+            color: #2a5298;
+        }
+        .prob-chart-container {
+            max-width: 340px;
+            margin: 2rem auto 1rem auto;
+            background: #f8fafc;
+            border-radius: 1.5rem;
+            box-shadow: 0 2px 12px rgba(44,34,59,0.08);
+            padding: 1.5rem 1rem 1rem 1rem;
+        }
+        .verdict-badge {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(90deg, #f7971e 0%, #ffd200 100%);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(44,34,59,0.10);
+        }
+        .verdict-badge.spam {
+            background: linear-gradient(90deg, #ff5858 0%, #f09819 100%);
+        }
+        .verdict-badge.safe {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+        }
+        .verdict-icon {
+            font-size: 2.2rem;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+        .btn-back {
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.7rem 2.5rem;
+            background: linear-gradient(90deg, #2a5298 0%, #1e3c72 100%);
+            color: #fff;
+            border: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-back:hover {
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+        }
+        .probability-bar-bg {
+            width: 100%;
+            height: 18px;
+            background: #e9edf3;
+            border-radius: 9px;
+            margin: 1.2rem 0 0.7rem 0;
+            overflow: hidden;
+        }
+        .probability-bar-fill {
+            height: 100%;
+            border-radius: 9px;
+            transition: width 0.8s cubic-bezier(.4,2,.6,1);
+        }
+        .probability-bar-fill.spam {
+            background: linear-gradient(90deg, #ff5858 0%, #f09819 100%);
+        }
+        .probability-bar-fill.safe {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+        }
+        @media (max-width: 767px) {
+            .result-card {
+                padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+            }
+            .result-hero h1 {
+                font-size: 2rem;
+            }
+            .prob-chart-container {
+                padding: 0.7rem 0.2rem 0.7rem 0.2rem;
+            }
+        }
+
+        .result-flex-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 2rem;
+            margin: 2.5rem auto;
+            max-width: 1200px;
+            flex-wrap: wrap;
+        }
+        .result-card,
+        .confidence-meter-box {
+            flex: 1 1 0;
+            min-width: 340px;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        @media (max-width: 991px) {
+            .result-flex-wrapper {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+            .result-card,
+            .confidence-meter-box {
+                min-height: unset;
+                width: 100%;
+                max-width: 700px;
+            }
+        }
+
+        /* Footer */
+        /* footer {
+            background: #343a40;
+            color: #ccc;
+            padding-top: 40px;
+        }
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        footer .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #ccc;
+        }
+        footer .social-icons a:hover {
+            color: #fff;
+        }
+        footer hr {
+            border-top: 1px solid #555;
+        } */
+        
+        /* Section Titles */
+        /* .section-title {
+            position: relative;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: #8B0000;
+            margin: 15px auto 0;
+        } */
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">SpamDetect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+
+    <section class="result-hero">
+        <h1>Spam Detection Result</h1>
+        <p class="lead mt-3 mb-0">See if your message is safe or a potential scam.</p>
+    </section>
+    
+    <div class="container my-5">
+        <div class="row justify-content-center align-items-start g-4">
+            <!-- Result Card (left) -->
+            <div class="col-lg-8">
+                <div class="result-card">
+                    <div class="result-label mb-2">
+                        <i class="fas fa-envelope-open-text me-2"></i>Scanned Message:
+                    </div>
+                    <div class="result-message mb-4">
+                        {{ message }}
+                    </div>
+                    <div class="text-center mb-3">
+                        <span class="verdict-badge {% if prediction == 'Spam' %}spam{% else %}safe{% endif %}">
+                            <i class="verdict-icon {% if prediction == 'Spam' %}fas fa-exclamation-triangle{% else %}fas fa-check-circle{% endif %}"></i>
+                            {% if prediction == 'Spam' %}Spam Detected{% else %}Safe{% endif %}
+                        </span>
+                    </div>
+                    <div class="prob-label mb-2 text-center">
+                        <i class="fas fa-percentage me-2"></i>Spam Probability: 
+                        <span class="fw-bold">{{ (probability*100) | round(2) }}%</span>
+                    </div>
+                    <div class="probability-bar-bg">
+                        <div class="probability-bar-fill {% if prediction == 'Spam' %}spam{% else %}safe{% endif %}" 
+                            style="width: {{ (probability*100) | round(2) }}%;">
+                        </div>
+                    </div>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-6">
+                            <div class="prob-chart-container">
+                                <canvas id="probChart" width="300" height="300"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="analysis-box p-4 mt-3 mt-md-0" style="background: linear-gradient(90deg, #e0e7ff 0%, #f8fafc 100%); border-radius: 1.2rem; box-shadow: 0 2px 12px rgba(44,34,59,0.08);">
+                                <h5 class="fw-bold mb-3" style="color:#2a5298;">
+                                    <i class="fas fa-chart-line me-2"></i>Analysis
+                                </h5>
+                                {% if prediction == 'Spam' %}
+                                    <p style="color:#dc3545; font-weight:600; font-size:1.1rem;">
+                                        This message is <span style="font-weight:700;">likely spam</span> with a probability of <span style="font-weight:700;">{{ (probability*100) | round(2) }}%</span>.
+                                    </p>
+                                    <ul class="mb-0" style="color:#b02a37;">
+                                        <li>Be cautious before clicking any links or sharing personal information.</li>
+                                        <li>Spam messages often promise prizes, money, or urgent action.</li>
+                                    </ul>
+                                {% else %}
+                                    <p style="color:#198754; font-weight:600; font-size:1.1rem;">
+                                        This message is <span style="font-weight:700;">likely safe</span> with a probability of <span style="font-weight:700;">{{ (100 - probability*100) | round(2) }}%</span>.
+                                    </p>
+                                    <ul class="mb-0" style="color:#198754;">
+                                        <li>No strong indicators of spam detected.</li>
+                                        <li>Always stay alert for suspicious content, even in safe messages.</li>
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('detector') }}" class="btn btn-back">
+                            <i class="fas fa-arrow-left me-2"></i>Try Another Message
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Confidence Meter (right) -->
+            <div class="col-lg-4">
+                <div class="confidence-meter-box p-4 d-flex flex-column align-items-center justify-content-center"
+                    style="background: linear-gradient(120deg, #f8ffae 0%, #43cea2 100%);
+                        border-radius: 1.2rem;
+                        box-shadow: 0 2px 16px rgba(44,34,59,0.13);
+                        min-height: 340px;">
+                    <h5 class="fw-bold mb-3" style="color:#1e3c72;">
+                        <i class="fas fa-tachometer-alt me-2"></i>Confidence Meter
+                    </h5>
+                    <div class="w-100 d-flex flex-column align-items-center">
+                        <div class="confidence-circle mb-3" style="position: relative; width: 110px; height: 110px;">
+                            <svg width="110" height="110">
+                                <circle cx="55" cy="55" r="48"
+                                        stroke="#e9edf3"
+                                        stroke-width="12"
+                                        fill="none" />
+                                <circle cx="55" cy="55" r="48"
+                                        stroke="{% if prediction == 'Spam' %}#ff5858{% else %}#43cea2{% endif %}"
+                                        stroke-width="12"
+                                        fill="none"
+                                        stroke-linecap="round"
+                                        stroke-dasharray="301.59"
+                                        stroke-dashoffset="{{ 301.59 - (probability * 301.59) }}"
+                                        style="transition: stroke-dashoffset 1s cubic-bezier(.4,2,.6,1);" />
+                            </svg>
+                            <div style="position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 110px;
+                                        height: 110px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;">
+                                <span style="font-size: 1.5rem; font-weight: 700; color: #1e3c72;">
+                                    {{ (probability * 100) | round(1) }}%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="confidence-desc text-center mt-2"
+                            style="font-size: 1.08rem; color: #1e3c72; font-weight: 600;">
+                            {% if prediction == 'Spam' %}
+                            The model is <span style="color: #ff5858;">highly confident</span> this is spam.
+                            {% else %}
+                            The model is <span style="color: #43cea2;">highly confident</span> this is safe.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    
+    <script>
+        // Doughnut chart for spam probability
+        const ctx = document.getElementById('probChart').getContext('2d');
+        const prob = {{ (probability*100) | round(2) }};
+        const notProb = 100 - prob;
+        const isSpam = "{{ prediction }}" === "Spam";
+        const chartColors = isSpam
+            ? ['#ff5858', '#43cea2']
+            : ['#43cea2', '#ff5858'];
+        const chartLabels = isSpam
+            ? ['Spam', 'Not Spam']
+            : ['Not Spam', 'Spam'];
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    data: isSpam ? [prob, notProb] : [notProb, prob],
+                    backgroundColor: chartColors,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: {
+                    legend: { display: true, position: 'bottom' }
+                }
+            }
+        });
+    </script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Enhanced Footer Section -->
+    <!-- <footer>
+        <div class="container">
+            <div class="row text-center text-md-start">
+                < About -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>About SpamDetect</h5>
+                    <p>Your trusted partner for advanced spam detection solutions. We help you keep your inbox clean and secure.</p>
+                </div> -->
+                <!-- Quick Links -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div> -->
+                <!-- Contact Us -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: support@spamdetect.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>Address: 123 SpamDetect Lane,<br> Tech City, TC 12345</p>
+                </div> -->
+                <!-- Social Media -->
+                <!-- <div class="col-md-3 mb-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i> Facebook</a><br>
+                        <a href="#"><i class="bi bi-twitter"></i> Twitter</a><br>
+                        <a href="#"><i class="bi bi-linkedin"></i> LinkedIn</a><br>
+                        <a href="#"><i class="bi bi-instagram"></i> Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center pb-3">
+                <p>&copy; 2025 SpamDetect. All Rights Reserved.</p>
+            </div> -->
+        <!-- </div>
+    </footer> -->
+
+</body>
+</html>
+
+{% endblock %}
